@@ -1,96 +1,448 @@
-import Link from "next/link";
-import { FiShield, FiUser, FiLock } from "react-icons/fi";
+"use client";
+import { useState } from "react";
+import { FiGithub, FiLinkedin, FiTwitter, FiMail, FiGlobe, FiCode, FiImage, FiVideo, FiUser, FiStar, FiSend, FiFilter } from "react-icons/fi";
 
-export default function Home() {
+const portfolioItems = [
+  {
+    id: 1,
+    title: "Digital Art Collection",
+    description: "A series of digital illustrations exploring futuristic themes",
+    category: "Art",
+    image: "https://images.unsplash.com/photo-1692791754463-c4782e14e367?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MzAxMzF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NTg5ODMzMDl8&ixlib=rb-4.1.0&q=80&w=1080",
+    alt: "digital art collection with futuristic themes"
+  },
+  {
+    id: 2,
+    title: "Brand Identity Design",
+    description: "Complete branding package for a tech startup",
+    category: "Design",
+    image: "https://images.unsplash.com/photo-1636800874031-8025403f0a2a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MzAxMzF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NTg5ODMzMDl8&ixlib=rb-4.1.0&q=80&w=1080",
+    alt: "brand identity design with logo and style guide"
+  },
+  {
+    id: 3,
+    title: "Interactive Web Experience",
+    description: "An experimental web project with unique interactions",
+    category: "Web",
+    image: "https://images.unsplash.com/photo-1745674684892-c60dde8a4f9d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MzAxMzF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NTg5ODMzMDh8&ixlib=rb-4.1.0&q=80&w=1080",
+    alt: "interactive web experience with animated elements"
+  },
+  {
+    id: 4,
+    title: "Mobile App UI/UX",
+    description: "User interface design for a productivity mobile application",
+    category: "UI/UX",
+    image: "https://images.unsplash.com/photo-1565268875251-e811c79f4541?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MzAxMzF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NTg5ODMzMDd8&ixlib=rb-4.1.0&q=80&w=1080",
+    alt: "mobile app screens showing user interface design"
+  },
+  {
+    id: 5,
+    title: "3D Character Design",
+    description: "Original 3D character models for game development",
+    category: "3D",
+    image: "https://images.unsplash.com/photo-1637494340190-a3431ca27cf8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MzAxMzF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NTg5ODMzMDd8&ixlib=rb-4.1.0&q=80&w=1080",
+    alt: "3D character models in various poses"
+  },
+  {
+    id: 6,
+    title: "Motion Graphics Showreel",
+    description: "A collection of motion graphics projects",
+    category: "Motion",
+    video: "https://www.youtube.com/embed/lHloiXN6mcQ",
+    videoTitle: "motion graphics showreel with various projects"
+  }
+];
+
+const skills = [
+  { name: "Digital Illustration", level: 90 },
+  { name: "UI/UX Design", level: 85 },
+  { name: "Brand Identity", level: 80 },
+  { name: "3D Modeling", level: 75 },
+  { name: "Motion Graphics", level: 88 },
+  { name: "Web Design", level: 92 }
+];
+
+const testimonials = [
+  {
+    id: 1,
+    name: "Sarah Johnson",
+    role: "Creative Director at DesignStudio",
+    quote: "Working with this creative professional was an absolute pleasure. Their attention to detail and innovative approach brought our project to life.",
+    image: "https://images.unsplash.com/photo-1712307338215-e89f1ce5782f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MzAxMzF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NTg5ODMzMDZ8&ixlib=rb-4.1.0&q=80&w=1080",
+    alt: "Sarah Johnson profile picture"
+  },
+  {
+    id: 2,
+    name: "Michael Chen",
+    role: "CEO of TechInnovate",
+    quote: "The brand identity created for our startup perfectly captured our vision and values. We couldn't be happier with the results.",
+    image: "https://images.unsplash.com/photo-1621388730892-23735656392f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MzAxMzF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NTg5ODMzMDZ8&ixlib=rb-4.1.0&q=80&w=1080",
+    alt: "Michael Chen profile picture"
+  }
+];
+
+export default function CreativePortfolio() {
+  const [activeFilter, setActiveFilter] = useState("All");
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [darkMode, setDarkMode] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: ""
+  });
+
+  const filteredItems = activeFilter === "All"
+    ? portfolioItems
+    : portfolioItems.filter(item => item.category === activeFilter);
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    document.documentElement.classList.toggle("dark");
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // In a real implementation, this would send the form data to a backend
+    console.log("Form submitted:", formData);
+    alert("Thank you for your message! I'll get back to you soon.");
+    setFormData({
+      name: "",
+      email: "",
+      message: ""
+    });
+  };
+
+  const categories = ["All", ...new Set(portfolioItems.map(item => item.category))];
+
   return (
-    <div className="flex flex-col items-center">
-      <section className="w-full py-12 md:py-24 text-center">
+    <div className={`min-h-screen ${darkMode ? "dark bg-gray-900 text-white" : "bg-white text-gray-900"}`}>
+      {/* Hero Section */}
+      <section className="w-full py-12 md:py-24 lg:py-32">
         <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center space-y-4 text-center">
-            <div className="space-y-2">
-              <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
-                Craftapp.ai
-              </h1>
-              <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl">
-                Welcome to craftapp
-              </p>
+          <div className="flex flex-col items-center justify-center space-y-4 text-center">
+            <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-primary-500 mb-4">
+              <img
+                src="https://images.unsplash.com/photo-1659100939250-12e687760365?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MzAxMzF8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NTg5ODMzMTB8&ixlib=rb-4.1.0&q=80&w=1080"
+                alt="Creative professional profile picture"
+                className="w-full h-full object-cover"
+              />
             </div>
-            <div className="space-x-4">
-              <Link
-                href="#"
-                className="inline-flex h-10 items-center justify-center rounded-md bg-primary-600 px-8 text-sm font-medium text-white shadow transition-colors hover:bg-primary-700 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-500"
+            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
+              Creative Portfolio
+            </h1>
+            <p className="max-w-[700px] mx-auto text-lg md:text-xl text-gray-600 dark:text-gray-300">
+              Showcasing digital art, design projects, and creative solutions for modern businesses.
+            </p>
+            <div className="flex gap-4 mt-6">
+              <a href="#portfolio" className="inline-flex h-10 items-center justify-center rounded-md bg-primary-600 px-8 text-sm font-medium text-white shadow transition-colors hover:bg-primary-700 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-500">
+                View Portfolio
+              </a>
+              <button
+                onClick={toggleDarkMode}
+                className="inline-flex h-10 items-center justify-center rounded-md border border-gray-300 dark:border-gray-600 px-4 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-500"
               >
-                Get Started
-              </Link>
+                {darkMode ? "Light Mode" : "Dark Mode"}
+              </button>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="w-full py-12 md:py-24 bg-gray-100">
+      {/* About Section */}
+      <section id="about" className="w-full py-12 md:py-24 border-t">
         <div className="container px-4 md:px-6">
-          <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-4 text-center">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
-              Key Features
-            </h2>
-            <p className="max-w-[85%] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              Modern full-stack web application, single page application, real
-              time game....
-            </p>
-          </div>
-          <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 py-12 md:grid-cols-3">
-            <div className="flex flex-col items-center space-y-2 rounded-lg border p-6 shadow-sm">
-              <div className="p-3 rounded-full bg-primary-100">
-                <FiUser className="h-6 w-6 text-primary-600" />
-              </div>
-              <h3 className="text-xl font-bold">Full-Stack web app</h3>
-              <p className="text-sm text-gray-500 text-center">
-                Complete user registration, authentication, and profile
-                management...
+          <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
+            <div className="space-y-4">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">About Me</h2>
+              <p className="text-gray-600 dark:text-gray-300">
+                I'm a passionate digital artist and designer with over 8 years of experience creating
+                visually stunning and functional designs. My work spans across various mediums including
+                digital illustration, UI/UX design, branding, and motion graphics.
+              </p>
+              <p className="text-gray-600 dark:text-gray-300">
+                With a background in both traditional art and digital design, I bring a unique perspective
+                to every project, combining artistic sensibilities with technical expertise to create
+                compelling visual experiences.
               </p>
             </div>
-            <div className="flex flex-col items-center space-y-2 rounded-lg border p-6 shadow-sm">
-              <div className="p-3 rounded-full bg-primary-100">
-                <FiLock className="h-6 w-6 text-primary-600" />
+            <div className="space-y-4">
+              <h3 className="text-2xl font-bold">Skills & Expertise</h3>
+              <div className="space-y-4">
+                {skills.map((skill) => (
+                  <div key={skill.name} className="space-y-1">
+                    <div className="flex justify-between text-sm">
+                      <span>{skill.name}</span>
+                      <span>{skill.level}%</span>
+                    </div>
+                    <div className="h-2 w-full rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                      <div
+                        className="h-full bg-primary-500"
+                        style={{ width: `${skill.level}%` }}
+                      ></div>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <h3 className="text-xl font-bold">Single Page app</h3>
-              <p className="text-sm text-gray-500 text-center">
-                amazing single page apps.
-              </p>
-            </div>
-            <div className="flex flex-col items-center space-y-2 rounded-lg border p-6 shadow-sm">
-              <div className="p-3 rounded-full bg-primary-100">
-                <FiShield className="h-6 w-6 text-primary-600" />
-              </div>
-              <h3 className="text-xl font-bold">Real time apps</h3>
-              <p className="text-sm text-gray-500 text-center">
-                Amazing real time app like game, stop watch ....
-              </p>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="w-full py-12 md:py-24">
+      {/* Portfolio Section */}
+      <section id="portfolio" className="w-full py-12 md:py-24 border-t">
         <div className="container px-4 md:px-6">
-          <div className="mx-auto max-w-[58rem] flex flex-col items-center justify-center space-y-4 text-center">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">
-              Ready to get started?
-            </h2>
-            <p className="max-w-[85%] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              Create your own app now
+          <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Portfolio</h2>
+            <p className="max-w-[700px] text-lg md:text-xl text-gray-600 dark:text-gray-300">
+              A selection of my recent creative projects across various mediums and disciplines.
             </p>
-            <div className="flex flex-col gap-2 min-[400px]:flex-row">
-              <Link
-                href="#"
-                className="inline-flex h-10 items-center justify-center rounded-md bg-primary-600 px-8 text-sm font-medium text-white shadow transition-colors hover:bg-primary-700 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-500"
+            <div className="flex flex-wrap justify-center gap-2">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setActiveFilter(category)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${activeFilter === category ? "bg-primary-600 text-white" : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700"}`}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredItems.map((item) => (
+              <div
+                key={item.id}
+                className="group relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow cursor-pointer"
+                onClick={() => setSelectedItem(item)}
               >
-                Start Now ...
-              </Link>
+                {item.video ? (
+                  <iframe
+                    src={item.video}
+                    title={item.videoTitle}
+                    className="w-full h-64 object-cover"
+                    frameBorder="0"
+                    allowFullScreen
+                  ></iframe>
+                ) : (
+                  <img
+                    src={item.image}
+                    alt={item.alt}
+                    className="w-full h-64 object-cover"
+                  />
+                )}
+                <div className="p-4 bg-white dark:bg-gray-800">
+                  <h3 className="font-bold text-lg">{item.title}</h3>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">{item.description}</p>
+                  <p className="text-xs text-primary-500 mt-2">{item.category}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="w-full py-12 md:py-24 border-t bg-gray-50 dark:bg-gray-800">
+        <div className="container px-4 md:px-6">
+          <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Client Testimonials</h2>
+            <p className="max-w-[700px] text-lg md:text-xl text-gray-600 dark:text-gray-300">
+              What clients say about working with me and my creative process.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {testimonials.map((testimonial) => (
+              <div key={testimonial.id} className="bg-white dark:bg-gray-900 p-8 rounded-lg shadow-md">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-16 h-16 rounded-full overflow-hidden">
+                    <img
+                      src={testimonial.image}
+                      alt={testimonial.alt}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div>
+                    <h4 className="font-bold">{testimonial.name}</h4>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">{testimonial.role}</p>
+                  </div>
+                </div>
+                <p className="text-gray-700 dark:text-gray-200 italic">"{testimonial.quote}"</p>
+                <div className="flex justify-end mt-4">
+                  <FiStar className="text-primary-500 fill-primary-500" />
+                  <FiStar className="text-primary-500 fill-primary-500" />
+                  <FiStar className="text-primary-500 fill-primary-500" />
+                  <FiStar className="text-primary-500 fill-primary-500" />
+                  <FiStar className="text-primary-500 fill-primary-500" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="w-full py-12 md:py-24 border-t">
+        <div className="container px-4 md:px-6">
+          <div className="flex flex-col items-center justify-center space-y-4 text-center mb-12">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Get In Touch</h2>
+            <p className="max-w-[700px] text-lg md:text-xl text-gray-600 dark:text-gray-300">
+              Interested in working together or have questions about my work? Let's connect!
+            </p>
+          </div>
+
+          <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
+            <div className="space-y-4">
+              <h3 className="text-2xl font-bold">Contact Information</h3>
+              <div className="space-y-4">
+                <div className="flex items-center gap-4">
+                  <FiMail className="text-primary-500" />
+                  <span>contact@creativeportfolio.com</span>
+                </div>
+                <div className="flex items-center gap-4">
+                  <FiGlobe className="text-primary-500" />
+                  <span>www.creativeportfolio.com</span>
+                </div>
+                <div className="flex items-center gap-4">
+                  <FiGithub className="text-primary-500" />
+                  <span>github.com/creativeportfolio</span>
+                </div>
+                <div className="flex items-center gap-4">
+                  <FiLinkedin className="text-primary-500" />
+                  <span>linkedin.com/in/creativeportfolio</span>
+                </div>
+                <div className="flex items-center gap-4">
+                  <FiTwitter className="text-primary-500" />
+                  <span>@creativeportfolio</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="text-2xl font-bold">Send Me a Message</h3>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="space-y-2">
+                  <label htmlFor="name" className="block text-sm font-medium">Name</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:border-gray-600"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="email" className="block text-sm font-medium">Email</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:border-gray-600"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="message" className="block text-sm font-medium">Message</label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    rows={5}
+                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:border-gray-600"
+                    required
+                  ></textarea>
+                </div>
+                <button
+                  type="submit"
+                  className="w-full bg-primary-600 text-white py-2 px-4 rounded-md hover:bg-primary-700 transition-colors flex items-center justify-center gap-2"
+                >
+                  <FiSend /> Send Message
+                </button>
+              </form>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Project Details Modal */}
+      {selectedItem && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex justify-end">
+                <button
+                  onClick={() => setSelectedItem(null)}
+                  className="text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              {selectedItem.video ? (
+                <iframe
+                  src={selectedItem.video}
+                  title={selectedItem.videoTitle}
+                  className="w-full h-96"
+                  frameBorder="0"
+                  allowFullScreen
+                ></iframe>
+              ) : (
+                <img
+                  src={selectedItem.image}
+                  alt={selectedItem.alt}
+                  className="w-full h-96 object-cover"
+                />
+              )}
+              <div className="mt-6 space-y-4">
+                <h3 className="text-2xl font-bold">{selectedItem.title}</h3>
+                <p className="text-gray-600 dark:text-gray-300">{selectedItem.description}</p>
+                <div className="mt-4">
+                  <span className="inline-block bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 px-3 py-1 rounded-full text-sm">
+                    {selectedItem.category}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Footer */}
+      <footer className="w-full py-6 border-t mt-12">
+        <div className="container px-4 md:px-6">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="text-center md:text-left">
+              <p className="text-gray-600 dark:text-gray-300">© 2023 CreativePortfolio. All rights reserved.</p>
+            </div>
+            <div className="flex gap-4">
+              <a href="#" className="text-gray-600 dark:text-gray-300 hover:text-primary-500">
+                <FiGithub className="h-5 w-5" />
+              </a>
+              <a href="#" className="text-gray-600 dark:text-gray-300 hover:text-primary-500">
+                <FiLinkedin className="h-5 w-5" />
+              </a>
+              <a href="#" className="text-gray-600 dark:text-gray-300 hover:text-primary-500">
+                <FiTwitter className="h-5 w-5" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
