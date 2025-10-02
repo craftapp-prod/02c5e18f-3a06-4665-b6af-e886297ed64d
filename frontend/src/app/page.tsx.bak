@@ -1,5 +1,6 @@
 typescript
 "use client";
+
 import { useState } from "react";
 import { FiGithub, FiLinkedin, FiTwitter, FiMail, FiGlobe, FiCode, FiImage, FiVideo, FiUser, FiStar, FiSend, FiFilter } from "react-icons/fi";
 
@@ -179,7 +180,7 @@ export default function CreativePortfolio() {
               </a>
               <button
                 onClick={toggleDarkMode}
-                className="inline-flex h-10 items-center justify-center rounded-md border border-gray-300 dark:border-gray-600 px-4 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-500"
+                className="inline-flex h-10 items-center justify-center rounded-md border border-gray-300 dark:border-gray-600 px-4 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary-500"
               >
                 {darkMode ? "Light Mode" : "Dark Mode"}
               </button>
