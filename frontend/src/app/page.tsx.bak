@@ -1,40 +1,8 @@
-typescript
 "use client";
 import { useState } from "react";
 import { FiGithub, FiLinkedin, FiTwitter, FiMail, FiGlobe, FiCode, FiImage, FiVideo, FiUser, FiStar, FiSend, FiFilter } from "react-icons/fi";
 
-interface PortfolioItem {
-  id: number;
-  title: string;
-  description: string;
-  category: string;
-  image?: string;
-  alt?: string;
-  video?: string;
-  videoTitle?: string;
-}
-
-interface Testimonial {
-  id: number;
-  name: string;
-  role: string;
-  quote: string;
-  image: string;
-  alt: string;
-}
-
-interface Skill {
-  name: string;
-  level: number;
-}
-
-interface FormData {
-  name: string;
-  email: string;
-  message: string;
-}
-
-const portfolioItems: PortfolioItem[] = [
+const portfolioItems = [
   {
     id: 1,
     title: "Digital Art Collection",
@@ -85,7 +53,7 @@ const portfolioItems: PortfolioItem[] = [
   }
 ];
 
-const skills: Skill[] = [
+const skills = [
   { name: "Digital Illustration", level: 90 },
   { name: "UI/UX Design", level: 85 },
   { name: "Brand Identity", level: 80 },
@@ -94,7 +62,7 @@ const skills: Skill[] = [
   { name: "Web Design", level: 92 }
 ];
 
-const testimonials: Testimonial[] = [
+const testimonials = [
   {
     id: 1,
     name: "Sarah Johnson",
@@ -114,16 +82,16 @@ const testimonials: Testimonial[] = [
 ];
 
 export default function CreativePortfolio() {
-  const [activeFilter, setActiveFilter] = useState<string>("All");
-  const [selectedItem, setSelectedItem] = useState<PortfolioItem | null>(null);
-  const [darkMode, setDarkMode] = useState<boolean>(false);
-  const [formData, setFormData] = useState<FormData>({
+  const [activeFilter, setActiveFilter] = useState("All");
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [darkMode, setDarkMode] = useState(false);
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: ""
   });
 
-  const filteredItems: PortfolioItem[] = activeFilter === "All"
+  const filteredItems = activeFilter === "All"
     ? portfolioItems
     : portfolioItems.filter(item => item.category === activeFilter);
 
@@ -132,7 +100,7 @@ export default function CreativePortfolio() {
     document.documentElement.classList.toggle("dark");
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -140,7 +108,7 @@ export default function CreativePortfolio() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     // In a real implementation, this would send the form data to a backend
     console.log("Form submitted:", formData);
@@ -152,7 +120,7 @@ export default function CreativePortfolio() {
     });
   };
 
-  const categories: string[] = ["All", ...new Set(portfolioItems.map(item => item.category))];
+  const categories = ["All", ...new Set(portfolioItems.map(item => item.category))];
 
   return (
     <div className={`min-h-screen ${darkMode ? "dark bg-gray-900 text-white" : "bg-white text-gray-900"}`}>
